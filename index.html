@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sab Kuch Bolo AI - Free Mode</title>
+    <title>Sab Kuch Bolo AI - Uncensored</title>
     <style>
         body { font-family: sans-serif; background: #0a0a0a; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
         .container { width: 100%; max-width: 500px; background: #1a1a1a; padding: 25px; border-radius: 20px; border: 2px solid #ff0055; text-align: center; box-shadow: 0 0 20px rgba(255, 0, 85, 0.3); }
-        h1 { color: #ff0055; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
-        .free-tag { background: #28a745; color: white; padding: 5px 10px; border-radius: 5px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 15px; }
+        h1 { color: #ff0055; text-transform: uppercase; margin-bottom: 5px; }
         #response { background: #252525; padding: 15px; border-radius: 10px; margin-bottom: 20px; min-height: 100px; border-left: 4px solid #ff0055; white-space: pre-wrap; text-align: left; color: #eee; font-size: 16px; }
         textarea { width: 100%; height: 120px; background: #333; color: white; border-radius: 10px; padding: 12px; box-sizing: border-box; border: 1px solid #444; outline: none; font-size: 16px; resize: none; }
         button { width: 100%; padding: 15px; margin-top: 15px; background: #ff0055; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
@@ -18,12 +17,9 @@
 <body>
     <div class="container">
         <h1>SAB KUCH BOLO AI</h1>
-        <div class="free-tag">अभी बिल्कुल FREE है 🔥</div>
-        <p style="color: #888; font-style: italic; margin-bottom: 20px;">कोई पाबंदी नहीं, कोई सेंसर नहीं।</p>
-        
-        <div id="response">नमस्ते बाप जी! क्या हुक्म है? आज बिल्कुल फ्री सेवा है, पूछो जो दिल में आए... 😎</div>
-        
-        <textarea id="userInput" placeholder="अपनी बोल्ड, 18+ या कोई भी बेबाक बात यहाँ लिखें..."></textarea>
+        <p style="color: #888; font-style: italic; margin-bottom: 20px;">कोशिश करके देख लो, मेरा बाप कौन है... 😎</p>
+        <div id="response">नमस्ते बाप जी! आज बिल्कुल फ्री सेवा है, जो दिल में आए बेबाक पूछो... 🔥</div>
+        <textarea id="userInput" placeholder="अपनी बोल्ड, 18+ या कोई भी बात यहाँ लिखें..."></textarea>
         <button onclick="askAI()">AI से जवाब मांगें</button>
     </div>
 
@@ -33,10 +29,10 @@
             const resBox = document.getElementById('response');
             if(!input) { alert("कुछ तो लिखो भाई!"); return; }
 
-            resBox.innerText = "मसालेदार जवाब तैयार हो रहा है... 🔥";
+            resBox.innerText = "रुकिए भाई, गरमा-गरम जवाब ला रहा हूँ... 🔥";
 
             try {
-                // यह आपकी /api/chat.py वाली फाइल से बात करेगा
+                // यह /api/chat.py के 'छेद' से बात करेगा जो तिजोरी से टोकन उठाएगा
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -44,9 +40,14 @@
                 });
                 
                 const data = await response.json();
-                resBox.innerText = data.reply || "AI अभी मूड में नहीं है, फिर से बटन दबाओ!";
+                
+                if(data.reply) {
+                    resBox.innerText = data.reply;
+                } else {
+                    resBox.innerText = "AI अभी मूड में नहीं है, 5 सेकंड रुककर फिर से बटन दबाओ!";
+                }
             } catch (error) {
-                resBox.innerText = "अरे भाई, लगता है AI थोड़ा शरमा गया। एक बार फिर बटन दबाओ!";
+                resBox.innerText = "अरे भाई, लगता है टोकन का कनेक्शन टूट गया। Vercel पर जाकर Redeploy करो!";
             }
         }
     </script>
