@@ -1,108 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-    <title>Pong Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sab Kuch Bolo AI - Uncensored</title>
     <style>
-        canvas {
-            background: #000;
-            display: block;
-            margin: 0 auto;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .container { width: 100%; max-width: 500px; background: #1a1a1a; padding: 25px; border-radius: 20px; border: 2px solid #ff0055; box-shadow: 0 0 20px rgba(255, 0, 85, 0.3); }
+        h1 { text-align: center; color: #ff0055; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        p.tagline { text-align: center; color: #888; font-size: 14px; margin-bottom: 20px; font-style: italic; }
+        #response { background: #252525; padding: 15px; border-radius: 10px; margin-bottom: 20px; min-height: 100px; line-height: 1.6; border-left: 4px solid #ff0055; white-space: pre-wrap; font-size: 16px; }
+        textarea { width: 100%; height: 100px; padding: 12px; background: #333; color: white; border: 1px solid #444; border-radius: 10px; outline: none; box-sizing: border-box; resize: none; font-size: 15px; }
+        button { width: 100%; padding: 15px; margin-top: 15px; background: #ff0055; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #ff3377; transform: scale(1.02); }
     </style>
 </head>
 <body>
-    <canvas id="pong" width="800" height="400"></canvas>
+    <div class="container">
+        <h1>SAB KUCH BOLO AI</h1>
+        <p class="tagline">कोई पाबंदी नहीं, कोई सेंसर नहीं - सिर्फ बेबाक बातें</p>
+        <div id="response">यहाँ आपकी बेबाक कहानी या सवाल का जवाब दिखेगा...</div>
+        <textarea id="userInput" placeholder="अपनी 18+, बोल्ड या कोई भी बेबाक बात यहाँ लिखें..."></textarea>
+        <button onclick="askAI()">AI से बात करें</button>
+    </div>
+
     <script>
-        const canvas = document.getElementById('pong');
-        const context = canvas.getContext('2d');
-        
-        // create the pong paddle
-        const paddleWidth = 10, paddleHeight = 100;
-        const player = { x: 0, y: canvas.height / 2 - paddleHeight / 2, width: paddleWidth, height: paddleHeight, score: 0 };
-        const ai = { x: canvas.width - paddleWidth, y: canvas.height / 2 - paddleHeight / 2, width: paddleWidth, height: paddleHeight, score: 0 };
-        
-        // create the pong ball
-        const ball = { x: canvas.width / 2, y: canvas.height / 2, radius: 10, speed: 4, velocityX: 4, velocityY: 4 };
-        
-        // draw everything
-        function draw() {
-            // clear the canvas
-            context.clearRect(0, 0, canvas.width, canvas.height);
+        // यह स्क्रिप्ट सीधे आपके AI के दिमाग से बात करेगी
+        async function askAI() {
+            const input = document.getElementById('userInput').value;
+            const resBox = document.getElementById('response');
             
-            // draw paddles
-            context.fillStyle = '#fff';
-            context.fillRect(player.x, player.y, player.width, player.height);
-            context.fillRect(ai.x, ai.y, ai.width, ai.height);
-            
-            // draw ball
-            context.beginPath();
-            context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
-            context.fill();
-            context.closePath();
-            
-            // draw score
-            context.font = "20px Arial";
-            context.fillText(player.score, canvas.width / 4, canvas.height / 5);
-            context.fillText(ai.score, 3 * canvas.width / 4, canvas.height / 5);
+            if(!input) { alert("पहले कुछ लिखो तो सही भाई!"); return; }
+
+            resBox.innerText = "मसालेदार जवाब तैयार कर रहा हूँ...";
+
+            // यहाँ आपका AI रिस्पॉन्स देगा (अगले स्टेप में इसे लाइव करेंगे)
+            resBox.innerText = "नमस्ते! मैं 'सब कुछ बोलो AI' हूँ। मैं तैयार हूँ हर तरह की बोल्ड और 18+ बातें करने के लिए। बस मुझे अपने Vercel API से एक बार जोड़ दीजिये, फिर देखिए जलवा!";
         }
-        
-        // control paddles
-        canvas.addEventListener('mousemove', (event) => {
-            let rect = canvas.getBoundingClientRect();
-            player.y = event.clientY - rect.top - player.height / 2;
-        });
-        
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowUp' && player.y > 0) {
-                player.y -= 20;
-            }
-            if (event.key === 'ArrowDown' && player.y < canvas.height - player.height) {
-                player.y += 20;
-            }
-        });
-        
-        // move the ball
-        function update() {
-            ball.x += ball.velocityX;
-            ball.y += ball.velocityY;
-            
-            // collision detection
-            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-                ball.velocityY = -ball.velocityY;
-            }
-            if (ball.x + ball.radius > canvas.width) {
-                player.score++; 
-                resetBall();
-            }
-            if (ball.x - ball.radius < 0) {
-                ai.score++; 
-                resetBall();
-            }
-            if (ball.x - ball.radius < player.x + player.width && ball.y > player.y && ball.y < player.y + player.height) {
-                ball.velocityX = -ball.velocityX;
-            }
-            if (ball.x + ball.radius > ai.x && ball.y > ai.y && ball.y < ai.y + ai.height) {
-                ball.velocityX = -ball.velocityX;
-            }
-            
-            // AI control
-            ai.y += (ball.y - (ai.y + ai.height / 2)) * 0.1;
-        }
-        
-        function resetBall() {
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height / 2;
-            ball.velocityX = -ball.velocityX;
-        }
-        
-        // game loop
-        function game() {
-            draw();
-            update();
-            requestAnimationFrame(game);
-        }
-        
-        game();
     </script>
 </body>
 </html>
